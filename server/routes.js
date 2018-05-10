@@ -1,17 +1,11 @@
-import mongoose from 'mongoose';
+import configMongoose from './configMongoose'; 
+import sessionRoutes from './routesSession';
 
-mongoose.connect('mongodb://localhost:27017/local', {
-  useMongoClient: true
-});
+const Article = configMongoose.Article;
 
-const articleSchema = { 
-    articleTitle:String, 
-    articleContent:String 
-}; 
-
-const Article = mongoose.model('Article', articleSchema,  'articles');
-
-const PublishingAppRoutes = [{ 
+const PublishingAppRoutes = [
+    ...sessionRoutes,
+{ 
     route: 'articles.length', 
     get: () => { 
         return Article.count({}, (err, count) => count) 
